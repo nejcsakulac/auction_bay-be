@@ -4,7 +4,7 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
+  Get, NotFoundException,
   Param,
   Post,
   Put,
@@ -32,6 +32,15 @@ import { multerConfigUsers } from '../../middleware/users-multer.config';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // @Get()
+  // @UseGuards(JwtAuthGuard)
+  // @ApiOperation({ summary: 'Get all users' })
+  // @ApiOkResponse({ description: 'Successfully fetched list of users.' })
+  // @ApiBadRequestResponse({ description: 'Bad Request' })
+  // @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  // async getAllUsers(): Promise<User[] | any> {
+  //   return this.userService.getAllUsers();
+  // }
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
@@ -45,12 +54,16 @@ export class UserController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get user by ID' })
-  @ApiOkResponse({ description: 'Successfully fetched user data.' })
+  @ApiOkResponse({ description: 'Successfully fetched user data.', type: UserDto })
   @ApiBadRequestResponse({ description: 'Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   async getUser(@Param('id') id: string): Promise<UserDto> {
-    return this.userService.getUser(id);
+    const user = await this.userService.getUser(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    return user;
   }
-
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user' })
   @ApiOkResponse({ description: 'User successfully deleted.' })

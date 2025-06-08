@@ -5,8 +5,8 @@ export class AuctionWithUserBid implements Prisma.AuctionUncheckedCreateInput {
   title: string;
   description: string;
   startPrice: number;
-  currentPrice: number;
-  startTime: Date | string;
+  currentPrice: number | null;
+  startTime: Date | string | null;
   endTime: Date | string;
   imageUrl?: string | null;
   userId: string;
