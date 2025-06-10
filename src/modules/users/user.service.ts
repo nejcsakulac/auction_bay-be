@@ -1,16 +1,13 @@
 import { PrismaService } from '../../prisma.service';
 import { User } from './user.model';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import bcrypt from 'bcrypt';
 import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  // async getAllUsers(): Promise<User[]> {
-  //   return this.prisma.user.findMany();
-  // }
+
 
   async getUser(id: string): Promise<UserDto | null> {
     return this.prisma.user.findUnique({
@@ -94,9 +91,9 @@ export class UserService {
     imagePath: string,
   ): Promise<void> {
     await this.prisma.user.update({
-      where: { email: email }, // Use email to find the user
+      where: { email: email },
       data: {
-        avatar: imagePath, // Update the avatar path
+        avatar: imagePath,
       },
     });
   }

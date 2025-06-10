@@ -5,7 +5,7 @@ import Logging from '../library/Logging';
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction): any {
-    // Getting the request log
+
 
     Logging.info(
       `Incomming -> Method [${req.method}] - Url: 

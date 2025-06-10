@@ -32,15 +32,6 @@ import { multerConfigUsers } from '../../middleware/users-multer.config';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // @Get()
-  // @UseGuards(JwtAuthGuard)
-  // @ApiOperation({ summary: 'Get all users' })
-  // @ApiOkResponse({ description: 'Successfully fetched list of users.' })
-  // @ApiBadRequestResponse({ description: 'Bad Request' })
-  // @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  // async getAllUsers(): Promise<User[] | any> {
-  //   return this.userService.getAllUsers();
-  // }
 
   @Get('me')
   @UseGuards(JwtAuthGuard)

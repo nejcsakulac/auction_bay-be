@@ -13,5 +13,6 @@ export class AuctionWithUserBid implements Prisma.AuctionUncheckedCreateInput {
   createdAt?: Date | string;
   updatedAt?: Date | string;
 
-  userHasBid?: boolean; // this property is not part of the Prisma schema but added for frontend logic
+  userHasBid?: boolean;
+
 }

@@ -15,7 +15,7 @@ export class AuctionService {
 
   async createAuction(
     createAuctionDto: CreateAuctionDto,
-    email: string, // email instead of username
+    email: string,
     imagePath: string,
   ): Promise<Auction> {
     const startPrice = parseFloat(String(createAuctionDto.startPrice));
@@ -25,7 +25,6 @@ export class AuctionService {
         ...createAuctionDto,
         startPrice: startPrice,
         imageUrl: imagePath,
-        // Connect the auction to the user via email
         user: {
           connect: { email: email },
         },
@@ -63,7 +62,6 @@ export class AuctionService {
       ...updateAuctionDto,
     };
 
-    // If an image path is provided, include it in the update data
     if (imagePath) {
       updateData.imageUrl = imagePath;
     }
@@ -110,14 +108,12 @@ export class AuctionService {
 
     if (!user) throw new Error('User not found');
 
-    // Fetch all user bids based on the found user's ID
     const userBids = await this.prisma.bid.findMany({
       where: { userId: user.id },
       select: { auctionId: true },
     });
     const userBidAuctionIds = userBids.map((bid) => bid.auctionId);
 
-    // Enhance auctions with the userHasBid property
     return auctions.map((auction) => ({
       ...auction,
       userHasBid: userBidAuctionIds.includes(auction.id),
@@ -197,23 +193,21 @@ export class AuctionService {
     if (!user) {
       throw new UnauthorizedException('User not found.');
     }
-    // find all auctions that have ended
     const endedAuctions = await this.prisma.auction.findMany({
       where: {
         endTime: {
-          lt: new Date(), // filter out auctions that have already ended
+          lt: new Date(),
         },
       },
       include: {
         bids: {
           orderBy: {
-            amount: 'desc', // order bids by amount in descending order
+            amount: 'desc',
           },
-          take: 1, // take the highest bid
+          take: 1,
         },
       },
     });
-    // filter auctions where the highest bid was made by the user
     return endedAuctions.filter(
       (auction) =>
         auction.bids.length > 0 && auction.bids[0].userId === user.id,

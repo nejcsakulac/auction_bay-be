@@ -26,7 +26,6 @@ import { CreateAuctionDto } from './dto/create-auction.dto';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import { multerConfigAuctions } from '../../middleware/auctions-multer.config';
 
 @ApiTags('auctions')

@@ -37,7 +37,6 @@ export class BidService {
       where: { id: auctionId },
     });
 
-    // Ensure the auction exists and compare the new bid with the current highest bid
     if (
       auction &&
       (auction.currentPrice === null || amount > auction.currentPrice)

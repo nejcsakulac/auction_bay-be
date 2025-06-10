@@ -4,10 +4,10 @@ import { extname } from 'path';
 
 export const multerConfigUsers = {
   storage: diskStorage({
-    destination: './uploads/users', // Adjust the path as needed
+    destination: './uploads/users',
     filename: (req, file, callback) => {
       const fileExtName = extname(file.originalname);
-      const uniqueName = `${uuidv4()}${fileExtName}`; // Generate unique file name
+      const uniqueName = `${uuidv4()}${fileExtName}`;
       callback(null, uniqueName);
     },
   }),
